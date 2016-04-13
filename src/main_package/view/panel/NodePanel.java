@@ -27,24 +27,21 @@ public class NodePanel extends JComponent {
     private static final double RADIUS = 25;
     private Node node;
     private Ellipse2D circle;
-    private Graph graph;
 
     public NodePanel(Node node) {
         this.node = node;
-        double x = node.getNodeX();
-        double y = node.getNodeY();
-        this.circle = new Ellipse2D.Double(x - RADIUS, y - RADIUS, RADIUS, RADIUS);
-     //   repaint();
+        this.circle = new Ellipse2D.Double(node.getNodeX() - RADIUS / 2, node.getNodeY() - RADIUS / 2, RADIUS, RADIUS);
+       repaint();
     }
 
-/*    @Override
+    @Override
     public void paintComponent(Graphics g)
     {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
         g2.setStroke(new BasicStroke(6.f));
         g2.draw(this.circle);
-    }*/
+    }
 
     public Node getNode() {
         return node;
@@ -57,4 +54,8 @@ public class NodePanel extends JComponent {
     public Ellipse2D getCircle() {
         return circle;
     }
+
+
+
+
 }

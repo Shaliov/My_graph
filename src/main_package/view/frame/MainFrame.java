@@ -1,16 +1,19 @@
 package main_package.view.frame;
 
+import main_package.controller.ArcService;
 import main_package.controller.GraphService;
+import main_package.controller.NodeService;
 import main_package.view.panel.GraphPanel;
 import main_package.view.panel.NodePanel;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
 import java.util.List;
 
 
-import static main_package.view.action.Action.*;
 import static main_package.view.action.FileAction.*;
 
 /**
@@ -20,6 +23,8 @@ public class MainFrame {
     private GraphService graphService;
     private GraphPanel graphPanel;
     private List<NodePanel> nodePanelList;
+    private NodeService nodeService;
+    private ArcService arcService;
 
     public MainFrame() {
         JFrame mainFrame = new JFrame();
@@ -50,24 +55,36 @@ public class MainFrame {
         mainFrame.setVisible(true);
         graphService = new GraphService(graphPanel);
         nodePanelList = graphPanel.getNodePanelList();
+        nodeService = new NodeService(graphPanel);
+        arcService = new ArcService(graphPanel);
         graphPanel.setVisible(true);
 
         actioN(mainFrame);
 
-        cleanAction.putValue(Action.SHORT_DESCRIPTION, "Clean");
+
 
         JToolBar barAction = new JToolBar(SwingConstants.VERTICAL);
         barAction.add(new AbstractAction("Node", new ImageIcon("node.gif")) {
             public void actionPerformed(ActionEvent event) {
-                graphPanel.addMouseListener(new MouseHandler());
-                graphPanel.addMouseMotionListener(new MouseMotionHandler());
+                eraseListeners();
+                nodeService.addNode(graphPanel);
             }
         });
         Action arcAction = new AbstractAction("arc", new ImageIcon("arc.gif")) {
             public void actionPerformed(ActionEvent event) {
-
+                eraseListeners();
+                arcService.addArc(graphPanel);
             }
         };
+
+        Action cleanAction = new AbstractAction("clean", new ImageIcon("clean.gif")) {
+            public void actionPerformed(ActionEvent event) {
+                eraseListeners();
+                graphService.clean();
+            }
+        };
+
+        cleanAction.putValue(Action.SHORT_DESCRIPTION, "Clean");
         barAction.add(arcAction);
         barAction.add(cleanAction);
         mainFrame.add(barAction, BorderLayout.WEST);
@@ -76,7 +93,6 @@ public class MainFrame {
 
 
     }
-
 
     public static void fileMenu(JMenu fileMenu) {
         fileMenu.setMnemonic('F');
@@ -100,7 +116,6 @@ public class MainFrame {
             }
         });
     }
-
     public static void helpMenu(JMenu helpMenu) {
         helpMenu.setMnemonic('H');
 
@@ -108,29 +123,18 @@ public class MainFrame {
         aboutAction.setMnemonic(KeyEvent.VK_F1);
     }
 
-    private class MouseHandler extends MouseAdapter {
-        public void mousePressed(MouseEvent event) {
-            if(((event.getModifiersEx() & InputEvent.BUTTON1_DOWN_MASK) != 0))
-            graphService.addNode(event.getPoint());
 
+
+
+    public void eraseListeners () {
+        for (MouseListener mList : graphPanel.getMouseListeners())
+        {
+            graphPanel.removeMouseListener(mList);
+        }
+        for (MouseMotionListener mMList : graphPanel.getMouseMotionListeners())
+        {
+            graphPanel.removeMouseMotionListener(mMList);
         }
     }
-    private class MouseMotionHandler implements MouseMotionListener {
-        public void mouseMoved(MouseEvent event) {
-            if ((event.getPoint()) != nodePanelList) {
-                graphPanel.setCursor(Cursor.getDefaultCursor());
-            }
-        }
-
-        public void mouseDragged(MouseEvent event) {
-                for(int i=0; i < nodePanelList.size(); i++){
-                    if(nodePanelList.get(i).getCircle() == graphPanel.find(event.getPoint())){
-                        graphService.updateNode(nodePanelList.get(i).getNode(), event);
-
-                    }
-                }
-            }
-        }
-
 
     }

@@ -26,4 +26,22 @@ public class Arc {
     public double getArcWeight() {
         return weight;
     }
+
+    public void setArcStartNode(Node arcStartNode) {
+        this.arcStartNode = arcStartNode;
+    }
+
+    public void setArcEndNode(Node arcEndNode) {
+        this.arcEndNode = arcEndNode;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+
+
 }
