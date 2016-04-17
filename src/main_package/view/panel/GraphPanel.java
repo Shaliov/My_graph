@@ -12,9 +12,6 @@ import java.awt.event.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.ImageObserver;
-import java.text.AttributedCharacterIterator;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,13 +22,15 @@ public class GraphPanel extends JPanel {
 
     private Graph graph = Graph.getInstance();
     private NodePanel nodePanel;
-    private GraphService graphService = new GraphService(this);
+    private GraphService graphService;
     private List<NodePanel> nodePanelList = new ArrayList<>();
     private List<ArcPanel> arcPanelList = new ArrayList<>();
     private NodeService nodeService;
+    private Line2D tempArc;
+    private  ArcPanel arcPanel;
 
-    public List<ArcPanel> getArcPanelList() {
-        return arcPanelList;
+    public ArcPanel getArcPanel() {
+        return arcPanel;
     }
 
     public GraphPanel() {
@@ -68,7 +67,6 @@ public class GraphPanel extends JPanel {
         });
 
 
-
         setComponentPopupMenu(popup);
         addMouseListener(new MouseAdapter() {
             public void mouseReleased(MouseEvent event) {
@@ -80,9 +78,10 @@ public class GraphPanel extends JPanel {
 
     }
 
-    public List<NodePanel> getNodePanelList(){
+    public List<NodePanel> getNodePanelList() {
         return nodePanelList;
     }
+
     public void addNode() {
         nodePanelList.clear();
         for (Node node : graph.getNodeList()) {
@@ -93,48 +92,53 @@ public class GraphPanel extends JPanel {
     }
 
 
-    public void addArc(){
+    public void addArc() {
         arcPanelList.clear();
-        for(Arc arc : graph.getArcList() ){
-            ArcPanel arcPanel = new ArcPanel(arc);
+        for (Arc arc : graph.getArcList()) {
+            arcPanel = new ArcPanel(arc);
             arcPanelList.add(arcPanel);
         }
         repaint();
     }
 
     @Override
-    public void paintComponent(Graphics g)
-    {
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
 
-        if(nodePanelList != null)
-        for(int i = 0; i < nodePanelList.size(); i++){
-            g2.setStroke(new BasicStroke(6.f));
-            g2.draw(nodePanelList.get(i).getCircle());
+        if (nodePanelList != null) {
+            for (NodePanel node : nodePanelList) {
+                g2.setStroke(new BasicStroke(6.f));
+                g2.draw(node.getCircle());
+            }
         }
-        if(arcPanelList != null)
-        for(int i = 0; i < arcPanelList.size(); i++)
-        {
-            g2.setStroke(new BasicStroke(4.f));
-            g2.draw(arcPanelList.get(i).getLine());
+        if (arcPanelList != null) {
+            for (ArcPanel arc : arcPanelList) {
+                g2.setStroke(new BasicStroke(4.f));
+                g2.draw(arc.getLine());
+            }
+        }
+        if(tempArc != null) {
+                g2.setStroke(new BasicStroke(4.f));
+                g2.draw(tempArc);
         }
 
     }
 
 
-    public Ellipse2D findCircle(Point2D p){
-        for(int i = 0; i < nodePanelList.size(); i++){
+    public Ellipse2D findCircle(Point2D p) {
+        for (int i = 0; i < nodePanelList.size(); i++) {
             Ellipse2D e = nodePanelList.get(i).getCircle();
-            if(e.contains((p))){
+            if (e.contains((p))) {
                 return e;
             }
         }
         return null;
     }
-    public Arc findArc(Point2D p){
-        for(int i = 0; i < arcPanelList.size(); i++){
-            if( arcPanelList.get(i).getLine().getBounds2D().contains(p)){
+
+    public Arc findArc(Point2D p) {
+        for (int i = 0; i < arcPanelList.size(); i++) {
+            if (arcPanelList.get(i).getLine().getBounds2D().contains(p)) {
                 return arcPanelList.get(i).getArc();
             }
         }
@@ -142,28 +146,32 @@ public class GraphPanel extends JPanel {
     }
 
 
-
-    public Node findNode(Point2D p)
-    {
-        for(int i = 0; i < nodePanelList.size(); i++){
-            if( nodePanelList.get(i).getCircle().contains((p))){
+    public Node findNode(Point2D p) {
+        for (int i = 0; i < nodePanelList.size(); i++) {
+            if (nodePanelList.get(i).getCircle().contains((p))) {
                 return nodePanelList.get(i).getNode();
             }
         }
         return null;
-
     }
 
+    public void tempArc(Node node, Point2D p) {
+        tempArc = new Line2D.Double(node.getNodeX(), node.getNodeY(), p.getX(), p.getY());
+        repaint();
+    }
+    public void deleteTemArc(){
+        tempArc = null;
+        repaint();
+    }
+    public void setGraphService(GraphService graphService) {
+        this.graphService = graphService;
+    }
 
+    public Line2D getTempArc() {
+        return tempArc;
+    }
 
-
-/*public void updateNode(Node node){
-    for(int i = 0; i < nodePanelList.size(); i++)
-        if(nodePanelList.get(i).getNode() == node)
-  //  nodePanelList.get(i).setFrame(node.getNodeX() - 25 / 2, node.getNodeY() - 25 / 2, 25, 25);
-    repaint();
-}*/
-
-
-
+    public List<ArcPanel> getArcPanelList() {
+        return arcPanelList;
+    }
 }

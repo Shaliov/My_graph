@@ -31,7 +31,7 @@ public class NodePanel extends JComponent {
     public NodePanel(Node node) {
         this.node = node;
         this.circle = new Ellipse2D.Double(node.getNodeX() - RADIUS / 2, node.getNodeY() - RADIUS / 2, RADIUS, RADIUS);
-       repaint();
+        repaint();
     }
 
     @Override

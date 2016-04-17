@@ -20,7 +20,8 @@ public class ArcPanel extends JComponent {
 
     public ArcPanel(Arc arc) {
         this.arc = arc;
-        this.line = new Line2D.Double(arc.getArcStartNode().getNodeX(), arc.getArcStartNode().getNodeY(), arc.getArcEndNode().getNodeX(), arc.getArcEndNode().getNodeY());
+        NewLine();
+//        this.line = new Line2D.Double(arc.getArcStartNode().getNodeX(), arc.getArcStartNode().getNodeY(), arc.getArcEndNode().getNodeX(), arc.getArcEndNode().getNodeY());
         repaint();
     }
 
@@ -32,6 +33,9 @@ public class ArcPanel extends JComponent {
         g2.draw(this.line);
     }
 
+    public void NewLine(){
+        line = new Line2D.Double(arc.getArcStartNode().getNodeX(), arc.getArcStartNode().getNodeY(), arc.getArcEndNode().getNodeX(), arc.getArcEndNode().getNodeY());
+    }
     public Arc getArc(){
         return arc;
     }

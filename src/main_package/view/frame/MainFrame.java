@@ -9,8 +9,6 @@ import main_package.view.panel.NodePanel;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Point2D;
 import java.util.List;
 
 
@@ -61,19 +59,22 @@ public class MainFrame {
 
         actioN(mainFrame);
 
+        graphPanel.setGraphService(graphService);
+        nodeService.setGraphService(graphService);
+        arcService.setGraphService(graphService);
 
 
         JToolBar barAction = new JToolBar(SwingConstants.VERTICAL);
         barAction.add(new AbstractAction("Node", new ImageIcon("node.gif")) {
             public void actionPerformed(ActionEvent event) {
                 eraseListeners();
-                nodeService.addNode(graphPanel);
+                nodeService.addNode();
             }
         });
         Action arcAction = new AbstractAction("arc", new ImageIcon("arc.gif")) {
             public void actionPerformed(ActionEvent event) {
                 eraseListeners();
-                arcService.addArc(graphPanel);
+                arcService.addArc();
             }
         };
 
@@ -137,4 +138,4 @@ public class MainFrame {
         }
     }
 
-    }
+}
