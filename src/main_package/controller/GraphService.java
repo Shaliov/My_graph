@@ -141,6 +141,18 @@ public class GraphService {
         }
         return null;
     }
+    public void crutch(Node node){
+        for (Arc arc : arcList) {
+            graphPanel.getArcPanel().setGraphPanel(graphPanel);
+            if(arc.getArcStartNode().getNodeName().equals(node.getNodeName()) && arc.equals(findArcOfEndNode(node)) == false) {
+                arc.setArcStartNode(node);
+            }
+            if(arc.getArcEndNode().getNodeName().equals(node.getNodeName()) && arc.equals(findArcOfStartNode(node)) == false)
+            {
+                arc.setArcEndNode(node);
+            }
+        }
+    }
 
     public void updateArc(Node node) {
         for (Arc arc : arcList) {
@@ -148,17 +160,11 @@ public class GraphService {
             if (arc.equals(findArcOfStartNode(node))) {
                 arc.setArcStartNode(node);
                 graphPanel.getArcPanel().repaintLine();
-            } /*else if(arc.getArcStartNode().getNodeName().equals(node.getNodeName()) && arc.equals(findArcOfEndNode(node)) == false){
-                arc.setArcStartNode(node);
-                graphPanel.getArcPanel().repaintLine();
-            }*/
+            }
             if (arc.equals(findArcOfEndNode(node))) {
                 arc.setArcEndNode(node);
                 graphPanel.getArcPanel().repaintLine();
-            }/*else if(arc.getArcEndNode().getNodeName().equals(node.getNodeName()) && arc.equals(findArcOfStartNode(node)) == false){
-                arc.setArcEndNode(node);
-                graphPanel.getArcPanel().repaintLine();
-            }*/
+            }
         }
 
 

@@ -10,13 +10,10 @@ import java.util.List;
  * Created by Andrey on 4/20/2016.
  */
 public class Algoritm {
-    private List<Node> nodeList;
-    private List<Arc> arcList;
-    private Graph graph = Graph.getInstance();
+
 
     public Algoritm() {
-        nodeList = graph.getNodeList();
-        arcList = graph.getArcList();
+        
 
     }
 

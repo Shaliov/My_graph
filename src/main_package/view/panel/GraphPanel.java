@@ -50,6 +50,7 @@ public class GraphPanel extends JPanel {
             addArc();
             repaint();
         }
+
         editMenu(popup);
 
     }

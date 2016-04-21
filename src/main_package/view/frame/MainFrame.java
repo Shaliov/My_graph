@@ -5,6 +5,7 @@ import main_package.controller.ArcService;
 import main_package.controller.GraphService;
 import main_package.controller.NodeService;
 import main_package.model.Graph;
+import main_package.model.Node;
 import main_package.view.panel.ArcPanel;
 import main_package.view.panel.GraphPanel;
 import main_package.view.panel.NodePanel;
@@ -18,6 +19,7 @@ import java.util.List;
  * Created by Andrey on 4/21/2016.
  */
 public class MainFrame {
+    private Graph graph;
     private GraphService graphService;
     private GraphPanel graphPanel;
     private List<NodePanel> nodePanelList;
@@ -54,6 +56,7 @@ public class MainFrame {
     }
 
     private void createNewFile(Graph graph) {
+        this.graph = graph;
         graphPanel = new GraphPanel(graph);
         graphService = new GraphService(graphPanel);
         nodePanelList = graphPanel.getNodePanelList();
@@ -67,6 +70,9 @@ public class MainFrame {
         arcService.setGraphService(graphService);
         barAction = new JToolBar(1);
         toolBar(barAction);
+        for(Node node : graph.getNodeList()) {
+            graphService.crutch(node);
+        }
         barAction.setVisible(true);
         mainFrame.setVisible(true);
     }
