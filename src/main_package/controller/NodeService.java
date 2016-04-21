@@ -5,6 +5,7 @@ import main_package.view.panel.NodePanel;
 import main_package.view.panel.handler.nodeHandler.MouseMotionHandler;
 import main_package.view.panel.handler.nodeHandler.MouseHandler;
 
+import java.awt.geom.Point2D;
 import java.util.List;
 
 /**
@@ -17,7 +18,11 @@ public class NodeService {
     private List<NodePanel> nodePanelList;
     private MouseHandler mouseHandler;
     private MouseMotionHandler mouseMotionHandler;
+    private Point2D p;
 
+    public Point2D getP() {
+        return mouseHandler.getP();
+    }
 
     public NodeService(GraphPanel graphPanel) {
         this.graphPanel = graphPanel;
@@ -35,6 +40,10 @@ public class NodeService {
 
     public void setArcService(ArcService arcService) {
         this.arcService = arcService;
+    }
+
+    public MouseHandler getMouseHandler() {
+        return mouseHandler;
     }
 
     public void setGraphService(GraphService graphService) {

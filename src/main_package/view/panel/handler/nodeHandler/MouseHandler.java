@@ -11,6 +11,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
 
 /**
  * Created by Andrey on 4/17/2016.
@@ -18,6 +19,16 @@ import java.awt.geom.Ellipse2D;
 public class MouseHandler extends MouseAdapter {
     private GraphPanel graphPanel;
     private GraphService graphService;
+    private Point2D p;
+
+    public Point2D getP() {
+        return p;
+    }
+
+    public void setP(Point2D p) {
+        this.p = p;
+    }
+
     public MouseHandler(GraphPanel graphPanel, GraphService graphService){
         this.graphPanel = graphPanel;
         this.graphService = graphService;
@@ -28,6 +39,9 @@ public class MouseHandler extends MouseAdapter {
         if (currentCircle == null)
             if (((event.getModifiersEx() & InputEvent.BUTTON1_DOWN_MASK) != 0)) {
                 graphService.addNode(event.getPoint());
+            }
+            if(((event.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK) != 0)){
+                setP(event.getPoint());
             }
     }
 

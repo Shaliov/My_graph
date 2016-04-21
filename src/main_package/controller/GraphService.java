@@ -10,7 +10,6 @@ import main_package.view.panel.NodePanel;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,7 +32,6 @@ public class GraphService {
         Node node = new Node();
         node.setNodeX(p.getX());
         node.setNodeY(p.getY());
-        arcPanelList = graphPanel.getArcPanelList();
 
         nodeList.add(node);
         graphPanel.addNode();
@@ -44,6 +42,13 @@ public class GraphService {
     }
 
     public void addArc(Node nodeStart, Node nodeEnd) {
+        for(Arc arc1 : arcList)
+        {
+            Node arcEndNode = arc1.getArcEndNode();
+            Node arcStartNode = arc1.getArcStartNode();
+            if(arcStartNode.equals(nodeStart)&& arcEndNode.equals(nodeEnd) || arcStartNode.equals(nodeEnd)&& arcEndNode.equals(nodeStart) )
+                return;
+        }
         arc = new Arc();
 
         arc.setArcStartNode(nodeStart);
@@ -85,10 +90,16 @@ public class GraphService {
             }
     }
 
-    public void clean() {
-        for (int i = graphPanel.getNodePanelList().size() - 1; i != -1; i--) {
-            removeNode(graphPanel.getNodePanelList().get(i).getCircle());
-        }
+    public void removeAll() {
+        clean();
+        graphPanel.repaint();
+    }
+
+    private void clean() {
+        graphPanel.getNodePanelList().clear();
+        graphPanel.getArcPanelList().clear();
+        graph.getArcList().clear();
+        graph.getNodeList().clear();
     }
 
     public void updateNode(NodePanel nodePanel, MouseEvent event) {
@@ -120,14 +131,14 @@ public class GraphService {
 
     public void updateArc(Node node) {
         for (Arc arc : arcList) {
-
+                graphPanel.getArcPanel().setGraphPanel(graphPanel);
             if (arc.equals(findArcOfStartNode(node))) {
                 arc.setArcStartNode(node);
-                graphPanel.getArcPanel().NewLine();
+                graphPanel.getArcPanel().repaintLine();
             }
             if (arc.equals(findArcOfEndNode(node))) {
                 arc.setArcEndNode(node);
-                graphPanel.getArcPanel().NewLine();
+                graphPanel.getArcPanel().repaintLine();
             }
         }
 

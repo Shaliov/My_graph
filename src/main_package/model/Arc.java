@@ -7,7 +7,7 @@ public class Arc {
     Node arcStartNode;
     Node arcEndNode;
     String name;
-    double weight;
+    int weight;
 
     public Arc(){}
 
@@ -17,6 +17,10 @@ public class Arc {
 
     public Node getArcEndNode() {
         return arcEndNode;
+    }
+
+    public int getWeight() {
+        return weight;
     }
 
     public String getAcrName() {
@@ -39,7 +43,7 @@ public class Arc {
         this.name = name;
     }
 
-    public void setWeight(double weight) {
+    public void setWeight(int weight) {
         this.weight = weight;
     }
 

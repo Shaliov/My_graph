@@ -1,5 +1,6 @@
 package main_package.view.panel.handler.arcHandler;
 
+import main_package.model.Node;
 import main_package.view.panel.GraphPanel;
 
 import java.awt.*;
@@ -28,6 +29,8 @@ public class MouseMotionHandler implements MouseMotionListener {
     }
 
     public void mouseDragged(MouseEvent event) {
-        graphPanel.tempArc(mouseHandler.getNodeStart(), event.getPoint());
+        Node nodeStart = mouseHandler.getNodeStart();
+        if(nodeStart != null)
+        graphPanel.tempArc(nodeStart, event.getPoint());
     }
 }

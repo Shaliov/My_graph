@@ -8,6 +8,7 @@ import main_package.view.panel.GraphPanel;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
 
 /**
  * Created by Andrey on 4/17/2016.
@@ -35,10 +36,15 @@ public class MouseHandler extends MouseAdapter {
     }
     public void mouseReleased(MouseEvent event) {
         nodeEnd = graphPanel.findNode(event.getPoint());
-        if (nodeStart != null && nodeEnd != null)
+        if (nodeStart != null && nodeEnd != null) {
             graphService.addArc(nodeStart, nodeEnd);
+        }
+            nodeStart = null;
+            nodeEnd = null;
             graphPanel.deleteTemArc();
+
     }
+
 
     public void mouseClicked(MouseEvent event) {
         Arc currentLine = graphPanel.findArc(event.getPoint());

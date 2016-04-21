@@ -4,6 +4,7 @@ import main_package.model.Graph;
 import main_package.model.Node;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
@@ -35,11 +36,10 @@ public class NodePanel extends JComponent {
     }
 
     @Override
-    public void paintComponent(Graphics g)
-    {
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D)g;
-        g2.setStroke(new BasicStroke(6.f));
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setStroke(new BasicStroke(6.5f));
         g2.draw(this.circle);
     }
 
@@ -50,12 +50,9 @@ public class NodePanel extends JComponent {
     public void setNode(Node node) {
         this.node = node;
     }
-
     public Ellipse2D getCircle() {
         return circle;
     }
-
-
 
 
 }
