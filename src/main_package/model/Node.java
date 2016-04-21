@@ -9,6 +9,7 @@ public class Node {
     String name;
 
     public Node() {
+        name = "";
     }
 
     public double getNodeX() {

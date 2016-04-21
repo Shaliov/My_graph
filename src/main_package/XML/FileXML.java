@@ -47,16 +47,10 @@ public class FileXML {
         }
         return success;
     }
-
-    public String getMessage() {
-        return message;
-    }
-
     public boolean openXML(String fileName) {
         try {
             message = fileName;
-            XMLStreamReader xmlStreamReader = XMLInputFactory.newInstance().createXMLStreamReader(fileName, new FileInputStream(fileName));
-            XMLStreamReader reader = xmlStreamReader;
+            XMLStreamReader reader = XMLInputFactory.newInstance().createXMLStreamReader(fileName, new FileInputStream(fileName));
             String name = null;
             double x = 0;
             double y = 0;
@@ -64,35 +58,36 @@ public class FileXML {
             Arc arc = new Arc();
             while (reader.hasNext()) {
                 reader.next();
-                if(reader.isStartElement()) {
-                    graph = new Graph();
-                } else if (reader.getLocalName().equals(AttributesXML.node.toString())) {
-                    name = reader.getAttributeValue(null, AttributesXML.name.toString());
-                    x = Double.valueOf(reader.getAttributeValue(null, AttributesXML.x.toString()));
-                    y = Double.valueOf(reader.getAttributeValue(null, AttributesXML.y.toString()));
-                } else if (reader.getLocalName().equals(AttributesXML.arc.toString())) {
-                    weight = Integer.valueOf(reader.getAttributeValue(null, AttributesXML.weight.toString()));
-                } else if (reader.getLocalName().equals(AttributesXML.startNode.toString())) {
-                    x = Double.valueOf(reader.getAttributeValue(null, AttributesXML.x.toString()));
-                    y = Double.valueOf(reader.getAttributeValue(null, AttributesXML.y.toString()));
-                } else if (reader.getLocalName().equals(AttributesXML.endNode.toString())) {
-                    x = Double.valueOf(reader.getAttributeValue(null, AttributesXML.x.toString()));
-                    y = Double.valueOf(reader.getAttributeValue(null, AttributesXML.y.toString()));
-                } else if (reader.isEndElement()) {
+                if (reader.isStartElement()) {
+                    if (reader.getLocalName().equals(AttributesXML.graph.toString())) {
+                        graph = new Graph();
+                    } else if (reader.getLocalName().equals(AttributesXML.node.toString())) {
+                        name = reader.getAttributeValue(null, AttributesXML.name.toString());
+                        x = Double.valueOf(reader.getAttributeValue(null, AttributesXML.x.toString()));
+                        y = Double.valueOf(reader.getAttributeValue(null, AttributesXML.y.toString()));
+                    } else if (reader.getLocalName().equals(AttributesXML.arc.toString())) {
+                        weight = Integer.valueOf(reader.getAttributeValue(null, AttributesXML.weight.toString()));
+                    } else if (reader.getLocalName().equals(AttributesXML.startNode.toString())) {
+                        x = Double.valueOf(reader.getAttributeValue(null, AttributesXML.x.toString()));
+                        y = Double.valueOf(reader.getAttributeValue(null, AttributesXML.y.toString()));
+                    } else if (reader.getLocalName().equals(AttributesXML.endNode.toString())) {
+                        x = Double.valueOf(reader.getAttributeValue(null, AttributesXML.x.toString()));
+                        y = Double.valueOf(reader.getAttributeValue(null, AttributesXML.y.toString()));
+                    }
+                }  if (reader.isEndElement()) {
                     if (reader.getLocalName().equals(AttributesXML.node.toString())) {
                         Node newNode = new Node();
                         newNode.setNodeName(name);
                         newNode.setNodeX(x);
                         newNode.setNodeY(y);
                         graph.add(newNode);
-
                     } else if (reader.getLocalName().equals(AttributesXML.arc.toString())) {
                         Arc newArc = new Arc();
                         newArc.setName(name);
                         newArc.setArcStartNode(arc.getArcStartNode());
                         newArc.setArcEndNode(arc.getArcEndNode());
                         newArc.setWeight(weight);
-                        graph.add(arc);
+                        graph.add(newArc);
                     } else if (reader.getLocalName().equals(AttributesXML.startNode.toString())) {
                         Node node = new Node();
                         node.setNodeX(x);
@@ -104,9 +99,9 @@ public class FileXML {
                         node.setNodeY(y);
                         arc.setArcEndNode(node);
                     }
-
                 }
             }
+
 
         }catch (Exception e) {
             JOptionPane.showMessageDialog
@@ -185,7 +180,6 @@ public class FileXML {
         }
 
     }
-
     private static String getExtension(String fileName) {
         String extension = null;
         int i = fileName.lastIndexOf('.');
@@ -193,6 +187,12 @@ public class FileXML {
             extension = fileName.substring(i + 1).toLowerCase();
         }
         return extension;
+    }
+    public String getMessage() {
+        return message;
+    }
+    public GraphService getGraphService() {
+        return graphService;
     }
 }
 

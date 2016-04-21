@@ -18,8 +18,14 @@ public class Graph {
     public Graph(Graph graph) {
         instance = graph;
     }
+
+    public static void setInstance(Graph instance) {
+        Graph.instance = instance;
+    }
+
     public void add(Node node){
         nodeList.add(node);
+
     }
     public void add(Arc arc){
         arcList.add(arc);

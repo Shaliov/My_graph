@@ -21,8 +21,16 @@ public class GraphService {
     private Graph graph = Graph.getInstance();
     private List<Node> nodeList = graph.getNodeList();
     private List<Arc> arcList = graph.getArcList();
+    private List<NodePanel> nodePanelList;
     private List<ArcPanel> arcPanelList;
     private Arc arc;
+
+    public void setNodePanelList(List<NodePanel> nodePanelList) {
+        this.nodePanelList = nodePanelList;
+    }
+    public void setArcPanelList(List<ArcPanel> arcPanelList) {
+        this.arcPanelList = arcPanelList;
+    }
 
     public GraphService(GraphPanel graphPanel) {
         this.graphPanel = graphPanel;
@@ -35,10 +43,7 @@ public class GraphService {
 
         nodeList.add(node);
         graphPanel.addNode();
-    }
-
-    public List<Arc> getArcList() {
-        return arcList;
+        graphPanel.repaint();
     }
 
     public void addArc(Node nodeStart, Node nodeEnd) {
@@ -56,6 +61,14 @@ public class GraphService {
 
         arcList.add(arc);
         graphPanel.addArc();
+        graphPanel.repaint();
+    }
+
+    public void graphNull(Graph graph) {
+        graph.setInstance(null);
+    }
+    public List<Arc> getArcList() {
+        return arcList;
     }
 
 

@@ -37,6 +37,21 @@ public class GraphPanel extends JPanel {
         JPopupMenu popup = new JPopupMenu();
         editMenu(popup);
     }
+    public GraphPanel(Graph graph)
+    {
+        setBackground(Color.WHITE);
+        JPopupMenu popup = new JPopupMenu();
+        if(graph.getNodeList() != null){
+            addNode();
+            repaint();
+        }
+        if(graph.getArcList() != null) {
+            addArc();
+            repaint();
+        }
+        editMenu(popup);
+
+    }
 
     public void editMenu(JPopupMenu popup) {
         JMenuItem setNodeName = popup.add("NodeName");
@@ -106,7 +121,6 @@ public class GraphPanel extends JPanel {
                 g2.fill(nodePanel.getCircle());
                 g2.setStroke(new BasicStroke(6.f));
                 g2.draw(nodePanel.getCircle());
-
             }
         }
         if (arcPanelList != null) {
@@ -114,30 +128,8 @@ public class GraphPanel extends JPanel {
                 Arc arc = arcPanel.getArc();
                 Node arcEndNode = arc.getArcEndNode();
                 Node arcStartNode = arc.getArcStartNode();
-                if(arc.getAcrName() != null) {
-                    double delX = arcStartNode.getNodeX() - arcEndNode.getNodeX();
-                    double delY = arcStartNode.getNodeY() - arcEndNode.getNodeY();
-                    g2.setFont(new Font("TimenewsNewRoman", 0, 20));
-                    g2.drawString(arc.getAcrName(), (float)delX, (float)delY);
-                }
-                if(arcPanel.getLoop() != null) {
-//                    if(arc.getAcrName() != null) {
-//                        g2.setFont(new Font("TimenewsNewRoman", 0, 20));
-//                        g2.drawString(arc.getAcrName(), (int) (arcStartNode.getNodeX() - 30 / 2), (int) (arcStartNode.getNodeY() - 27));
-//                    }
-                    if(String.valueOf(arc.getWeight()) != null && arc.getWeight() != 0){
-                        g2.setFont(new Font("TimenewsNewRoman", 0, 20));
-                        g2.drawString(String.valueOf(arc.getWeight()), (int) (arcStartNode.getNodeX() - 30 / 2), (int) (arcStartNode.getNodeY() + 15));
-                    }
-                    g2.setStroke(new BasicStroke(4.f));
-                    g2.draw(arcPanel.getLoop());
-                }
                 if(arcPanel.getLine() != null) {
-//                    if(arc.getAcrName() != null) {
-//                        g2.setFont(new Font("TimenewsNewRoman", 0, 20));
-//                        g2.drawString(arc.getAcrName(), (int)((arcStartNode.getNodeX() + arcEndNode.getNodeX())/2),(int)((arcStartNode.getNodeY() + arcEndNode.getNodeY())/2) );
-//                    }
-                    if(String.valueOf(arc.getWeight()) != null && arc.getWeight() != 0){
+                    if(/*String.valueOf(arc.getWeight()) != null &&*/ arcPanel.getArc().getWeight() != 0){
                         g2.setFont(new Font("TimenewsNewRoman", 0, 20));
                         g2.drawString(String.valueOf(arc.getWeight()), (int) ((arcStartNode.getNodeX() + arcEndNode.getNodeX())/2),(int)(((arcStartNode.getNodeY() + arcEndNode.getNodeY())/2) + 20));
                     }
@@ -158,15 +150,15 @@ public class GraphPanel extends JPanel {
             NodePanel nodePanel = new NodePanel(node);
             nodePanelList.add(nodePanel);
         }
-        repaint();
+//        graphService.setNodePanelList(nodePanelList);
     }
     public void addArc() {
         arcPanelList.clear();
         for (Arc arc : graph.getArcList()) {
-            arcPanel = new ArcPanel(arc);
+            ArcPanel arcPanel = new ArcPanel(arc);
             arcPanelList.add(arcPanel);
         }
-        repaint();
+//        graphService.setArcPanelList(arcPanelList);
     }
     public Ellipse2D findCircle(Point2D p) {
         for(NodePanel nodePanel : nodePanelList) {

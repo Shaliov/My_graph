@@ -5,6 +5,7 @@ import main_package.controller.ArcService;
 import main_package.controller.GraphService;
 import main_package.controller.NodeService;
 import main_package.model.Graph;
+import main_package.view.panel.ArcPanel;
 import main_package.view.panel.GraphPanel;
 import main_package.view.panel.NodePanel;
 
@@ -20,6 +21,7 @@ public class MainFrame {
     private GraphService graphService;
     private GraphPanel graphPanel;
     private List<NodePanel> nodePanelList;
+    private List<ArcPanel> arcPanelList;
     private NodeService nodeService;
     private ArcService arcService;
     private JFrame mainFrame;
@@ -51,6 +53,23 @@ public class MainFrame {
         mainFrame.setDefaultCloseOperation(3);
     }
 
+    private void createNewFile(Graph graph) {
+        graphPanel = new GraphPanel(graph);
+        graphService = new GraphService(graphPanel);
+        nodePanelList = graphPanel.getNodePanelList();
+        mainFrame.add(graphPanel, "Center");
+        nodeService = new NodeService(graphPanel);
+        arcService = new ArcService(graphPanel);
+        graphPanel.setVisible(true);
+        graphPanel.setGraphService(graphService);
+        nodeService.setGraphService(graphService);
+        arcService.setGraphService(graphService);
+        barAction = new JToolBar(1);
+        toolBar(barAction);
+        barAction.setVisible(true);
+        mainFrame.setVisible(true);
+    }
+
     private void createNewFile() {
         graphPanel = new GraphPanel();
         graphService = new GraphService(graphPanel);
@@ -69,8 +88,8 @@ public class MainFrame {
     }
     private void openFile() {
         if(this.fileXML.openFile()) {
-            createNewFile();
-            new Graph(fileXML.getGraph());
+            Graph.setInstance(fileXML.getGraph());
+            createNewFile(Graph.getInstance());
             graphPanel.repaint();
         }
     }
@@ -83,6 +102,7 @@ public class MainFrame {
     private void closeFile() {
         mainFrame.remove(graphPanel);
         mainFrame.remove(barAction);
+        graphService.graphNull(Graph.getInstance());
         mainFrame.repaint();
         mainFrame.validate();
     }
@@ -104,6 +124,7 @@ public class MainFrame {
         openAction.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 openFile();
+
             }
         });
         fileMenu.add(openAction);
