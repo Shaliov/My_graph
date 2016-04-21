@@ -6,7 +6,7 @@ package main_package.model;
 public class Arc {
     Node arcStartNode;
     Node arcEndNode;
-    String name;
+//    String name;
     int weight;
 
     public Arc(){}
@@ -23,9 +23,9 @@ public class Arc {
         return weight;
     }
 
-    public String getAcrName() {
-        return name;
-    }
+//    public String getAcrName() {
+//        return name;
+//    }
 
     public double getArcWeight() {
         return weight;
@@ -39,9 +39,9 @@ public class Arc {
         this.arcEndNode = arcEndNode;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+//    public void setName(String name) {
+//        this.name = name;
+//    }
 
     public void setWeight(int weight) {
         this.weight = weight;

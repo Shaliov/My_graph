@@ -119,8 +119,8 @@ public class GraphService {
         nodePanel.getNode().setNodeX(event.getX());
         nodePanel.getNode().setNodeY(event.getY());
 
-        nodePanel.getCircle().setFrame(event.getX() - 25 / 2, event.getY() - 25 / 2, 25, 25);
         updateArc(nodePanel.getNode());
+        nodePanel.getCircle().setFrame(event.getX() - 25 / 2, event.getY() - 25 / 2, 25, 25);
 
     }
 
@@ -148,11 +148,17 @@ public class GraphService {
             if (arc.equals(findArcOfStartNode(node))) {
                 arc.setArcStartNode(node);
                 graphPanel.getArcPanel().repaintLine();
-            }
+            } /*else if(arc.getArcStartNode().getNodeName().equals(node.getNodeName()) && arc.equals(findArcOfEndNode(node)) == false){
+                arc.setArcStartNode(node);
+                graphPanel.getArcPanel().repaintLine();
+            }*/
             if (arc.equals(findArcOfEndNode(node))) {
                 arc.setArcEndNode(node);
                 graphPanel.getArcPanel().repaintLine();
-            }
+            }/*else if(arc.getArcEndNode().getNodeName().equals(node.getNodeName()) && arc.equals(findArcOfStartNode(node)) == false){
+                arc.setArcEndNode(node);
+                graphPanel.getArcPanel().repaintLine();
+            }*/
         }
 
 

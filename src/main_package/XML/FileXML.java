@@ -68,9 +68,11 @@ public class FileXML {
                     } else if (reader.getLocalName().equals(AttributesXML.arc.toString())) {
                         weight = Integer.valueOf(reader.getAttributeValue(null, AttributesXML.weight.toString()));
                     } else if (reader.getLocalName().equals(AttributesXML.startNode.toString())) {
+                        name = reader.getAttributeValue(null, AttributesXML.name.toString());
                         x = Double.valueOf(reader.getAttributeValue(null, AttributesXML.x.toString()));
                         y = Double.valueOf(reader.getAttributeValue(null, AttributesXML.y.toString()));
                     } else if (reader.getLocalName().equals(AttributesXML.endNode.toString())) {
+                        name = reader.getAttributeValue(null, AttributesXML.name.toString());
                         x = Double.valueOf(reader.getAttributeValue(null, AttributesXML.x.toString()));
                         y = Double.valueOf(reader.getAttributeValue(null, AttributesXML.y.toString()));
                     }
@@ -83,18 +85,20 @@ public class FileXML {
                         graph.add(newNode);
                     } else if (reader.getLocalName().equals(AttributesXML.arc.toString())) {
                         Arc newArc = new Arc();
-                        newArc.setName(name);
+//                        newArc.setName(name);
                         newArc.setArcStartNode(arc.getArcStartNode());
                         newArc.setArcEndNode(arc.getArcEndNode());
                         newArc.setWeight(weight);
                         graph.add(newArc);
                     } else if (reader.getLocalName().equals(AttributesXML.startNode.toString())) {
                         Node node = new Node();
+                        node.setNodeName(name);
                         node.setNodeX(x);
                         node.setNodeY(y);
                         arc.setArcStartNode(node);
                     } else if (reader.getLocalName().equals(AttributesXML.endNode.toString())) {
                         Node node = new Node();
+                        node.setNodeName(name);
                         node.setNodeX(x);
                         node.setNodeY(y);
                         arc.setArcEndNode(node);

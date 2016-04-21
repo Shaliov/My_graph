@@ -60,6 +60,7 @@ public class MainFrame {
         mainFrame.add(graphPanel, "Center");
         nodeService = new NodeService(graphPanel);
         arcService = new ArcService(graphPanel);
+        arcPanelList = graphPanel.getArcPanelList();
         graphPanel.setVisible(true);
         graphPanel.setGraphService(graphService);
         nodeService.setGraphService(graphService);
