@@ -1,6 +1,7 @@
 package main_package.view.frame;
 
 import main_package.XML.FileXML;
+import main_package.algoritm.Algoritm;
 import main_package.controller.ArcService;
 import main_package.controller.GraphService;
 import main_package.controller.NodeService;
@@ -29,6 +30,7 @@ public class MainFrame {
     private JFrame mainFrame;
     private FileXML fileXML;
     private JToolBar barAction;
+    private Algoritm algoritm;
 
     public MainFrame() {
         JFrame mainFrame = new JFrame();
@@ -47,10 +49,13 @@ public class MainFrame {
         fileMenu(fileMenu);
         JMenuBar menuBar = new JMenuBar();
         mainFrame.setJMenuBar(menuBar);
+        JMenu algoritmMenu = new JMenu("Algoritm");
+        algoritm(algoritmMenu);
         JMenu helpMenu = new JMenu("Help");
         helpMenu(helpMenu);
         menuBar.add(fileMenu);
         menuBar.add(helpMenu);
+        menuBar.add(algoritmMenu);
         mainFrame.setVisible(true);
         mainFrame.setDefaultCloseOperation(3);
     }
@@ -76,7 +81,6 @@ public class MainFrame {
         barAction.setVisible(true);
         mainFrame.setVisible(true);
     }
-
     private void createNewFile() {
         graphPanel = new GraphPanel();
         graphService = new GraphService(graphPanel);
@@ -154,11 +158,6 @@ public class MainFrame {
         });
         fileMenu.add(saveAsAction);
         fileMenu.addSeparator();
-
-
-
-
-
         fileMenu.addSeparator();
         fileMenu.add(new AbstractAction("Exit") {
             public void actionPerformed(ActionEvent event) {
@@ -166,7 +165,6 @@ public class MainFrame {
             }
         });
     }
-
     private void toolBar(JToolBar barAction) {
         barAction.add(new AbstractAction("Node", new ImageIcon("node.gif")) {
             public void actionPerformed(ActionEvent event) {
@@ -203,7 +201,6 @@ public class MainFrame {
         barAction.add(cleanAction);
         this.mainFrame.add(barAction, "West");
     }
-
     private void mainToolBar(JToolBar bar) {
         AbstractAction newAction = new AbstractAction("New file", new ImageIcon("new.gif")) {
             public void actionPerformed(ActionEvent event) {
@@ -237,10 +234,21 @@ public class MainFrame {
         bar.add(exitAction);
         mainFrame.add(bar, "North");
     }
-
     public static void helpMenu(JMenu helpMenu) {
         helpMenu.setMnemonic('H');
         JMenuItem aboutAction = helpMenu.add("About");
         aboutAction.setMnemonic(112);
     }
+    public void algoritm(JMenu algoritmMenu) {
+        JMenuItem newItem = new JMenuItem("run algoritm");
+        newItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                algoritm = new Algoritm(graphPanel);
+            }
+        });
+        algoritmMenu.add(newItem);
+    }
+
+
+
 }

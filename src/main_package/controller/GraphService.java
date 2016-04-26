@@ -106,6 +106,7 @@ public class GraphService {
     public void removeAll() {
         clean();
         graphPanel.repaint();
+
     }
 
     private void clean() {
@@ -113,6 +114,7 @@ public class GraphService {
         graphPanel.getArcPanelList().clear();
         graph.getArcList().clear();
         graph.getNodeList().clear();
+
     }
 
     public void updateNode(NodePanel nodePanel, MouseEvent event) {
