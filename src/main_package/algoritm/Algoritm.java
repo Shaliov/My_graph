@@ -25,7 +25,7 @@ public class Algoritm {
     private int[][] adjacencyMatrix = null;
     private int indexStartNode;
     private int indexEndNode;
-    private int wieght = 0;
+    private int wieght = 1000;
     private int tempWieght;
 
     public void setWieght(int wieght) {
@@ -95,7 +95,7 @@ public class Algoritm {
     public Algoritm(GraphPanel graphPanel) {
         nodeList = graph.getNodeList();
         arcList = graph.getArcList();
-        adjacencyMatrix = new int[nodeList.size()][arcList.size()];
+        adjacencyMatrix = new int[nodeList.size()][nodeList.size()];
         matrixFilling();
         find();
         findIndexNode(getStartNode().getNodeName(),getEndNode().getNodeName());
@@ -137,7 +137,7 @@ public class Algoritm {
     }
     private void matrixFilling() {
         for (int i = 0; i < nodeList.size(); i++) {
-            for(int j = 0; j < arcList.size(); j++) {
+            for(int j = 0; j < nodeList.size(); j++) {
                 adjacencyMatrix[i][j] = weightSearch(nodeList.get(i), nodeList.get(j)) ;
             }
         }
@@ -146,11 +146,11 @@ public class Algoritm {
         for(Arc arc : arcList) {
             Node arcStartNode = arc.getArcStartNode();
             Node arcEndNode = arc.getArcEndNode();
-            if(arcStartNode.equals(startNode) && arcEndNode.equals(endNode) || arcStartNode.equals(endNode) && arcEndNode.equals(startNode)  ) {
+            if(arcStartNode.equals(startNode) && arcEndNode.equals(endNode)) {
                 return arc.getWeight();
             }
         }
-        return 0;
+        return 10000;
     }
     private void findIndexNode(String startNode, String  endNode) {
         for(int i = 0; i < nodeList.size(); i ++) {
@@ -163,34 +163,45 @@ public class Algoritm {
         }
 
     }
-//    private Arc findArc(Node startNode, Node endNode) {
-//        for(Arc arc : arcList) {
-//            Node arcStartNode = arc.getArcStartNode();
-//            Node arcEndNode = arc.getArcEndNode();
-//            if(arcStartNode.equals(startNode) && arcEndNode.equals(endNode) || arcStartNode.equals(endNode) && arcEndNode.equals(startNode)  ) {
-//                return arc;
-//            }
-//        }
-//        return null;
-//    }
+
     private void findingTheShortestPath() {
+        int tempIndex = indexStartNode;
+        int tempMas[] = new int[nodeList.size()];
         if(indexEndNode == indexStartNode) {
-            setWieght(weightSearch(nodeList.get(indexStartNode), nodeList.get(indexEndNode)));
-            return;
+            wieght = weightSearch(nodeList.get(indexStartNode), nodeList.get(indexEndNode));
         }
-        if(adjacencyMatrix[indexStartNode][indexEndNode] != 0){
-                wieght = adjacencyMatrix[indexStartNode][indexEndNode];
+        if(adjacencyMatrix[indexStartNode][indexEndNode] < 1000){
+            wieght = adjacencyMatrix[indexStartNode][indexEndNode];
+        }
+
+            for (int i = 0; i < nodeList.size(); i++) {
+                if (tempIndex != indexEndNode) {
+                    int k = 0;
+                    for(int j = 0; j < nodeList.size(); j++) {
+                        if(adjacencyMatrix[i][j] < 1000) {
+                            tempMas[k] = adjacencyMatrix[i][j];
+                            k++;
+                        }
+                    }
+                    if (adjacencyMatrix[tempIndex][i] < 1000) {
+                        tempWieght += adjacencyMatrix[tempIndex][i];
+                        tempIndex = i;
+                        i = 0;
+                    }
+                } else {
+                    break;
+                }
             }
-        for (int i = 0; i < nodeList.size(); i++) {
-            if(i != indexStartNode) {
-                
-              }
+            if (tempWieght < wieght && tempWieght != 0) {
+                wieght = tempWieght;
+                tempWieght = 0;
             }
+
+
+        JOptionPane.showMessageDialog(null, "длина кратчайшего пути от "+ startNode.getNodeName() + " до " + endNode.getNodeName() + " = " + getWieght(), null, JOptionPane.WARNING_MESSAGE | JOptionPane.OK_OPTION);
+
+
 
 
     }
-
-
-
-
 }

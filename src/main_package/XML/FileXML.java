@@ -148,8 +148,7 @@ public class FileXML {
             w.flush();
 
         } catch (Exception save) {
-            JOptionPane.showMessageDialog
-                    (null, "Can't save ", "ERROR", JOptionPane.ERROR_MESSAGE | JOptionPane.OK_OPTION);
+            JOptionPane.showMessageDialog(null, "Can't save ", "ERROR", JOptionPane.ERROR_MESSAGE | JOptionPane.OK_OPTION);
             message = null;
         }
 
