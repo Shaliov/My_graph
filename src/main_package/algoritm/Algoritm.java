@@ -25,22 +25,7 @@ public class Algoritm {
     private int[][] adjacencyMatrix = null;
     private int indexStartNode;
     private int indexEndNode;
-    private int wieght = 1000;
-    private int tempWieght;
 
-    public void setWieght(int wieght) {
-        this.wieght = wieght;
-    }
-    public void setTempWieght(int tempWieght) {
-        this.tempWieght = tempWieght;
-    }
-    public int getWieght() {
-
-        return wieght;
-    }
-    public int getTempWieght() {
-        return tempWieght;
-    }
     public int getIndexStartNode() {
         return indexStartNode;
     }
@@ -138,7 +123,12 @@ public class Algoritm {
     private void matrixFilling() {
         for (int i = 0; i < nodeList.size(); i++) {
             for(int j = 0; j < nodeList.size(); j++) {
-                adjacencyMatrix[i][j] = weightSearch(nodeList.get(i), nodeList.get(j)) ;
+                if( i == j) {
+                    adjacencyMatrix[i][j] = 0 ;
+                }
+                else {
+                    adjacencyMatrix[i][j] = weightSearch(nodeList.get(i), nodeList.get(j));
+                }
             }
         }
     }
@@ -164,43 +154,40 @@ public class Algoritm {
 
     }
 
+
     private void findingTheShortestPath() {
-        int tempIndex = indexStartNode;
-        int tempMas[] = new int[nodeList.size()];
-        if(indexEndNode == indexStartNode) {
-            wieght = weightSearch(nodeList.get(indexStartNode), nodeList.get(indexEndNode));
+        int size = nodeList.size();
+        final int INF = 1000000000;
+        int []dist = new int[size];
+        dist[indexStartNode] = 0;
+        for(int i = 0; i < size; i++) {
+            if(i != indexStartNode) {
+                dist[i] = INF;
+            }
         }
-        if(adjacencyMatrix[indexStartNode][indexEndNode] < 1000){
-            wieght = adjacencyMatrix[indexStartNode][indexEndNode];
+        int []used = new int[size];
+        for(int i = 0; i < size; i++) {
+            used[i] = 0;
         }
-
-            for (int i = 0; i < nodeList.size(); i++) {
-                if (tempIndex != indexEndNode) {
-                    int k = 0;
-                    for(int j = 0; j < nodeList.size(); j++) {
-                        if(adjacencyMatrix[i][j] < 1000) {
-                            tempMas[k] = adjacencyMatrix[i][j];
-                            k++;
-                        }
-                    }
-                    if (adjacencyMatrix[tempIndex][i] < 1000) {
-                        tempWieght += adjacencyMatrix[tempIndex][i];
-                        tempIndex = i;
-                        i = 0;
-                    }
-                } else {
-                    break;
+        int min_dist = 0;
+        int min_vertex = indexStartNode;
+        while (min_dist < INF)
+        {
+            int i = min_vertex;
+            used[i] = 1;
+            for (int j = 0; j < size; ++j)
+                if (dist[i] + adjacencyMatrix[i][j] < dist[j])
+                    dist[j] = dist[i] + adjacencyMatrix[i][j];
+            min_dist = INF;
+            for (int j = 0; j < size; ++j)
+                if (used[j] == 0 && dist[j] < min_dist)
+                {
+                    min_dist = dist[j];
+                    min_vertex = j;
                 }
-            }
-            if (tempWieght < wieght && tempWieght != 0) {
-                wieght = tempWieght;
-                tempWieght = 0;
-            }
+        }
 
-
-        JOptionPane.showMessageDialog(null, "длина кратчайшего пути от "+ startNode.getNodeName() + " до " + endNode.getNodeName() + " = " + getWieght(), null, JOptionPane.WARNING_MESSAGE | JOptionPane.OK_OPTION);
-
-
+        JOptionPane.showMessageDialog(null, "длина кратчайшего пути от "+ startNode.getNodeName() + " до " + endNode.getNodeName() + " = " + dist[indexEndNode], null, JOptionPane.WARNING_MESSAGE | JOptionPane.OK_OPTION);
 
 
     }

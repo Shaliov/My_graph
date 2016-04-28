@@ -7,6 +7,16 @@ public class Node {
     double x;
     double y;
     String name;
+    String color;
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getColor() {
+
+        return color;
+    }
 
     public Node() {
 
@@ -15,23 +25,18 @@ public class Node {
     public double getNodeX() {
         return x;
     }
-
     public double setNodeX(double setX) {
         return x = setX;
     }
-
     public double getNodeY() {
         return y;
     }
-
     public double setNodeY(double setY) {
         return y = setY;
     }
-
     public String getNodeName() {
         return name;
     }
-
     public void setNodeName(String name) {
         this.name = name;
     }
