@@ -1,5 +1,7 @@
 package main_package.model;
 
+import java.awt.*;
+
 /**
  * Created by Andrey on 4/3/2016.
  */
@@ -7,18 +9,19 @@ public class Node {
     double x;
     double y;
     String name;
-    String color;
+    Color color;
 
-    public void setColor(String color) {
+    public void setColor(Color color) {
         this.color = color;
     }
 
-    public String getColor() {
+    public Color getColor() {
 
         return color;
     }
 
     public Node() {
+        setColor(Color.BLACK);
 
     }
 

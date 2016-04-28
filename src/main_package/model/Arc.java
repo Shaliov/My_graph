@@ -1,5 +1,7 @@
 package main_package.model;
 
+import java.awt.*;
+
 /**
  * Created by Andrey on 4/3/2016.
  */
@@ -7,9 +9,22 @@ public class Arc {
     Node arcStartNode;
     Node arcEndNode;
 //    String name;
+    Color color;
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public Color getColor() {
+
+        return color;
+    }
+
     int weight;
 
-    public Arc(){}
+    public Arc(){
+        setColor(Color.BLACK);
+    }
 
     public Node getArcStartNode() {
         return arcStartNode;

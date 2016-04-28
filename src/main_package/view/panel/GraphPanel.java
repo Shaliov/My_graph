@@ -112,9 +112,10 @@ public class GraphPanel extends JPanel {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint ( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-        if (nodePanelList != null) {
+        if (nodePanelList != null) {;
             for (NodePanel nodePanel : nodePanelList) {
                 Node node = nodePanel.getNode();
+                g2.setColor(node.getColor());
                 if(node.getNodeName() != null) {
                     g2.setFont(new Font("TimenewsNewRoman", 0, 20));
                     g2.drawString(node.getNodeName(), (int)node.getNodeX() - 20, (int)node.getNodeY() - 20);
@@ -130,6 +131,7 @@ public class GraphPanel extends JPanel {
                 Arc arc = arcPanel.getArc();
                 Node arcEndNode = arc.getArcEndNode();
                 Node arcStartNode = arc.getArcStartNode();
+                g2.setColor(arc.getColor());
 //                if(arc.getAcrName() != null) {
 //                    double delX = arcStartNode.getNodeX() - arcEndNode.getNodeX();
 //                    double delY = arcStartNode.getNodeY() - arcEndNode.getNodeY();
